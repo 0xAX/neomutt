@@ -787,4 +787,5 @@ void init_config(struct ConfigSet *cs)
 {
   init_types(cs);
   init_variables(cs);
+  cs->init_complete = true;
 }

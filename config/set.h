@@ -229,6 +229,7 @@ struct ConfigSet
 {
   struct HashTable *hash;         ///< HashTable storing the config items
   struct ConfigSetType types[18]; ///< All the defined config types
+  bool init_complete;             ///< All config variables initialised
 };
 
 struct ConfigSet *cs_new(size_t size);

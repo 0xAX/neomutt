@@ -171,7 +171,7 @@ static int enum_reset(const struct ConfigSet *cs, void *var,
   if (cdef->initial == (*(unsigned char *) var))
     return (CSR_SUCCESS | CSR_SUC_NO_CHANGE);
 
-  if (cdef->validator)
+  if (cs->init_complete && cdef->validator)
   {
     int rc = cdef->validator(cs, cdef, cdef->initial, err);
 

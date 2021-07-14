@@ -771,6 +771,7 @@ void test_config_sort(void)
   /* Register a broken variable separately */
   if (!cs_register_variables(cs, Vars2, 0))
     return;
+  cs->init_complete = true;
 
   struct Buffer *err = mutt_buffer_pool_get();
   TEST_CHECK(test_initial_values(sub, err));

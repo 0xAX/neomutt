@@ -731,8 +731,11 @@ enum CommandResult parse_set(struct Buffer *buf, struct Buffer *s,
           if (!list)
             return MUTT_CMD_ERROR;
 
+          // This will temporarily disable the validators
+          NeoMutt->sub->cs->init_complete = false;
           for (size_t i = 0; list[i]; i++)
             cs_subset_he_reset(NeoMutt->sub, list[i], NULL);
+          NeoMutt->sub->cs->init_complete = true;
 
           FREE(&list);
           break;

@@ -674,6 +674,7 @@ void test_config_enum(void)
 
   if (!TEST_CHECK(cs_register_variables(cs, Vars, 0)))
     return;
+  cs->init_complete = true;
 
   notify_observer_add(NeoMutt->notify, NT_CONFIG, log_observer, 0);
 
