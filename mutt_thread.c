@@ -55,19 +55,83 @@ struct ThreadsContext
 };
 
 /**
+ * UseThreadsMethods - Choices for '$use_threads' for the index
+ */
+static const struct Mapping UseThreadsMethods[] = {
+  // clang-format off
+  { "unset",         UT_UNSET },   /* limited use; see validator */
+  { "flat",          UT_FLAT },
+  { "threads",       UT_THREADS },
+  { "reverse",       UT_REVERSE },
+  // aliases
+  { "no",            UT_FLAT },
+  { "yes",           UT_THREADS },
+  { NULL,            0 },
+  // clang-format on
+};
+
+struct EnumDef UseThreadsTypeDef = {
+  "use_threads_type",
+  4,
+  (struct Mapping *) &UseThreadsMethods,
+};
+
+/**
  * mutt_thread_style - Which threading style is active?
  * @retval UT_FLAT    No threading in use
  * @retval UT_THREADS Normal threads (root above subthread)
  * @retval UT_REVERSE Reverse threads (subthread above root)
+ *
+ * @note UT_UNSET is never returned; rather, this function considers the
+ *       interaction between $use_threads and $sort.
  */
 enum UseThreads mutt_thread_style(void)
 {
+  const unsigned char c_use_threads =
+      cs_subset_enum(NeoMutt->sub, "use_threads");
   const short c_sort = cs_subset_sort(NeoMutt->sub, "sort");
+  if (c_use_threads > UT_FLAT)
+    return c_use_threads;
   if ((c_sort & SORT_MASK) != SORT_THREADS)
     return UT_FLAT;
   if (c_sort & SORT_REVERSE)
     return UT_REVERSE;
   return UT_THREADS;
+}
+
+/**
+ * check_sort_use_threads - Validate combinations of "use_threads" and "sort"
+ * @param threads proposed new value of $use_threads
+ * @param sort    proposed new value of $sort
+ * @param change  name of config variable with proposed change
+ * @param other   name of other config variable that might prevent change
+ * @param err     buffer for reporting errors
+ * @retval CSR_SUCCESS     change was acceptable
+ * @retval CSR_ERR_INVALID change was rejected and @a err populated
+ */
+int check_sort_use_threads(unsigned char threads, short sort, const char *change,
+                            const char *other, struct Buffer *err)
+{
+  if ((sort & SORT_MASK) != SORT_THREADS)
+    return CSR_SUCCESS;
+
+  if ((threads > UT_FLAT) && (!(sort & SORT_REVERSE) == (threads == SORT_THREADS)))
+  {
+    mutt_buffer_printf(err, _("Changing option %s would conflict with current setting of %s"),
+                       change, other);
+    return CSR_ERR_INVALID;
+  }
+
+  if (threads != UT_UNSET)
+  {
+    static bool warned = false;
+    if (!warned)
+    {
+      mutt_warning(_("Enabling threads should prefer $use_threads over $sort"));
+      warned = true;
+    }
+  }
+  return CSR_SUCCESS;
 }
 
 /**
