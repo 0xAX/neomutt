@@ -17814,65 +17814,78 @@ bind index D purge-message
 <screen>
 <emphasis role="comment"># Example NeoMutt config file for the use-threads feature.</emphasis>
 
+<emphasis role="comment"># ------------------------------------------------------------</emphasis>
 <emphasis role="comment"># Default configuration: flat view sorted by date</emphasis>
 <emphasis role="comment">#set use_threads=no sort=date sort_aux=date</emphasis>
-<emphasis role="comment">#  12:01 cover letter for thread 1</emphasis>
-<emphasis role="comment">#  12:02 part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:03 part 2 of thread 1</emphasis>
-<emphasis role="comment">#  12:04 thread 2</emphasis>
-<emphasis role="comment">#  12:05 thread 3</emphasis>
-<emphasis role="comment">#  12:06 re: part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:07 re: thread 2</emphasis>
 
+<emphasis role="comment">#   Anne     12:01  cover letter for thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:02  part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:03  part 2 of thread 1</emphasis>
+<emphasis role="comment">#   Barbara  12:04  thread 2</emphasis>
+<emphasis role="comment">#   Claire   12:05  thread 3</emphasis>
+<emphasis role="comment">#   Diane    12:06  re: part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Erica    12:07  re: thread 2</emphasis>
+
+<emphasis role="comment"># ------------------------------------------------------------</emphasis>
 <emphasis role="comment"># Legacy configuration: sorting threads by date started</emphasis>
 <emphasis role="comment">#set sort=threads sort_aux=date</emphasis>
+
 <emphasis role="comment"># Modern configuration for the same</emphasis>
 <emphasis role="comment"># Latest root message sorts last</emphasis>
 set use_threads=yes sort=date sort_aux=date
-<emphasis role="comment">#  12:01 cover letter for thread 1</emphasis>
-<emphasis role="comment">#  12:02 -&gt;part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:06 | -&gt;re: part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:03 -&gt;part 2 of thread 1</emphasis>
-<emphasis role="comment">#  12:04 thread 2</emphasis>
-<emphasis role="comment">#  12:07 -&gt;re: thread 2</emphasis>
-<emphasis role="comment">#  12:05 thread 3</emphasis>
 
+<emphasis role="comment">#   Anne     12:01  cover letter for thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:02  |-&gt;part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Diane    12:06  | `-&gt;re: part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:03  `-&gt;part 2 of thread 1</emphasis>
+<emphasis role="comment">#   Barbara  12:04  thread 2</emphasis>
+<emphasis role="comment">#   Erica    12:07  `-&gt;re: thread 2</emphasis>
+<emphasis role="comment">#   Claire   12:05  thread 3</emphasis>
+
+<emphasis role="comment"># ------------------------------------------------------------</emphasis>
 <emphasis role="comment"># Legacy configuration: display threads upside-down</emphasis>
 <emphasis role="comment">#set sort=reverse-threads sort_aux=date</emphasis>
+
 <emphasis role="comment"># Modern configuration for the same</emphasis>
 <emphasis role="comment"># Latest root message sorts first</emphasis>
 set use_threads=reverse sort=date sort_aux=date
-<emphasis role="comment">#  12:05 thread 3</emphasis>
-<emphasis role="comment">#  12:07 -&gt;re: thread 2</emphasis>
-<emphasis role="comment">#  12:04 thread 2</emphasis>
-<emphasis role="comment">#  12:03 -&gt;part 2 of thread 1</emphasis>
-<emphasis role="comment">#  12:06 | -&gt;re: part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:02 -&gt;part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:01 cover letter for thread 1</emphasis>
 
+<emphasis role="comment">#   Anne     12:03  ,-&gt;part 2 of thread 1</emphasis>
+<emphasis role="comment">#   Diane    12:06  | ,-&gt;re: part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:02  |-&gt;part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:01  cover letter for thread 1</emphasis>
+<emphasis role="comment">#   Erica    12:07  ,-&gt;re: thread 2</emphasis>
+<emphasis role="comment">#   Barbara  12:04  thread 2</emphasis>
+<emphasis role="comment">#   Claire   12:05  thread 3</emphasis>
+
+<emphasis role="comment"># ------------------------------------------------------------</emphasis>
 <emphasis role="comment"># Legacy configuration: recently active thread/subthread first</emphasis>
 <emphasis role="comment">#set sort=threads sort_aux=reverse-last-date</emphasis>
+
 <emphasis role="comment"># Modern configuration for the same</emphasis>
 <emphasis role="comment"># Note that subthreads are also rearranged</emphasis>
 set use_threads=threads sort=date sort_aux=date
-<emphasis role="comment">#  12:04 thread 2</emphasis>
-<emphasis role="comment">#  12:07 -&gt;re: thread 2</emphasis>
-<emphasis role="comment">#  12:01 cover letter for thread 1</emphasis>
-<emphasis role="comment">#  12:03 -&gt;part 2 of thread 1</emphasis>
-<emphasis role="comment">#  12:06 | -&gt;re: part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:02 -&gt;part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:05 thread 3</emphasis>
 
+<emphasis role="comment">#   Anne     12:01  cover letter for thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:02  |-&gt;part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Diane    12:06  | `-&gt;re: part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:03  `-&gt;part 2 of thread 1</emphasis>
+<emphasis role="comment">#   Barbara  12:04  thread 2</emphasis>
+<emphasis role="comment">#   Erica    12:07  `-&gt;re: thread 2</emphasis>
+<emphasis role="comment">#   Claire   12:05  thread 3</emphasis>
+
+<emphasis role="comment"># ------------------------------------------------------------</emphasis>
 <emphasis role="comment"># Modern configuration: threads keep date order, recently active thread last</emphasis>
 <emphasis role="comment"># (not possible with legacy configuration)</emphasis>
 set use_threads=threads sort=last-date sort_aux=date
-<emphasis role="comment">#  12:05 thread 3</emphasis>
-<emphasis role="comment">#  12:01 cover letter for thread 1</emphasis>
-<emphasis role="comment">#  12:02 -&gt;part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:03 -&gt;part 2 of thread 1</emphasis>
-<emphasis role="comment">#  12:06 | -&gt;re: part 1 of thread 1</emphasis>
-<emphasis role="comment">#  12:04 thread 2</emphasis>
-<emphasis role="comment">#  12:07 -&gt;re: thread 2</emphasis>
+
+<emphasis role="comment">#   Claire   12:05  thread 3</emphasis>
+<emphasis role="comment">#   Anne     12:01  cover letter for thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:02  |-&gt;part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Diane    12:06  | `-&gt;re: part 1 of thread 1</emphasis>
+<emphasis role="comment">#   Anne     12:03  `-&gt;part 2 of thread 1</emphasis>
+<emphasis role="comment">#   Barbara  12:04  thread 2</emphasis>
+<emphasis role="comment">#   Erica    12:07  `-&gt;re: thread 2</emphasis>
 
 <emphasis role="comment"># vim: syntax=neomuttrc</emphasis>
 </screen>
